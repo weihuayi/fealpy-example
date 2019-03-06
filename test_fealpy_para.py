@@ -34,12 +34,12 @@ for i in range(1):
     c.computing(A, px)
 
     t1 = MPI.Wtime()
-    print("rank: ", rank, "compute time:", t1 - t0)
+    print("rank: ", rank, "compute time:", t1 - t0, "px:", px)
 
-    c.communicating()
+    c.communicating(px)
 
     t2 = MPI.Wtime()
-    print("rank: ", rank, "message time: ", t2 - t1)
+    print("rank: ", rank, "message time: ", t2 - t1, "px:", px)
 
 
 
