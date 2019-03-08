@@ -16,30 +16,36 @@ print("name: ", name)
 
 
 
-A = np.array([[4, 0, 2], [0, 1, 0], [2, 0, 5]], dtype=np.float)
+#A = np.array([[4, 0, 2], [0, 1, 0], [2, 0, 5]], dtype=np.float)
+#N = A.shape[0]
+#p = np.array([1, 1, 1], dtype=np.float)
+#A = csr_matrix(A)
+
+data = sio.loadmat('amg.mat')
+A = data['A'].tocsr()
+p = data['b'].reshape(-1)
+
 N = A.shape[0]
-x = np.array([1, 1, 1], dtype=np.float)
-A = csr_matrix(A)
 
 ctop = CSRMatrixCommToplogy(comm, N)
 
 A = ctop.get_parallel_operator(A)
-px = ctop.get_parallel_array(x)
+lidx = ctop.get_local_idx()
 
 c = NumCompComponent(ctop)
 
 for i in range(1):
     t0 = MPI.Wtime()
 
-    c.computing(A, px)
+    p[lidx] = A@p
 
     t1 = MPI.Wtime()
-    print("rank: ", rank, "compute time:", t1 - t0, "px:", px)
+    print("rank: ", rank, "compute time:", t1 - t0, "p:", p)
 
-    c.communicating(px)
+    c.communicating(p)
 
     t2 = MPI.Wtime()
-    print("rank: ", rank, "message time: ", t2 - t1, "px:", px)
+    print("rank: ", rank, "message time: ", t2 - t1, "p:", p)
 
 
 

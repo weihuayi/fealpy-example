@@ -6,7 +6,7 @@ from fealpy.pde.poisson_2d import CosCosData as PDE
 from fealpy.boundarycondition import DirichletBC
 
 pde = PDE()
-mesh = pde.init_mesh(6)
+mesh = pde.init_mesh(3)
 print(mesh.number_of_nodes())
 integrator = mesh.integrator(3)
 fem = PoissonFEMModel(pde, mesh, 1, integrator)
