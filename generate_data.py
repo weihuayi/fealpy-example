@@ -11,7 +11,7 @@ print(mesh.number_of_nodes())
 integrator = mesh.integrator(3)
 fem = PoissonFEMModel(pde, mesh, 1, integrator)
 
-bc = DirichletBC(fem.femspace, pde.dirichlet)
+bc = DirichletBC(fem.space, pde.dirichlet)
 
 A = fem.get_left_matrix()
 b = fem.get_right_vector()

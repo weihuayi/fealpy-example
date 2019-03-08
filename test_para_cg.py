@@ -2,6 +2,7 @@ import numpy as np
 import scipy.io as sio
 from scipy.sparse import csr_matrix
 from mpi4py import MPI
+
 from numpy.linalg import norm
 
 from fealpy.parallel import CSRMatrixCommToplogy, NumCompComponent
@@ -16,13 +17,13 @@ print("rank: ", rank)
 print("name: ", name)
 
 
-#A = np.array([[4, 0, 2], [0, 1, 0], [2, 0, 5]], dtype=np.float)
-#b = np.array([1, 1, 1], dtype=np.float)
-#A = csr_matrix(A)
+A = np.array([[4, 0, 2], [0, 1, 0], [2, 0, 5]], dtype=np.float)
+b = np.array([1, 1, 1], dtype=np.float)
+A = csr_matrix(A)
 
-data = sio.loadmat('amg.mat')
-A = data['A'].tocsr()
-b = data['b'].reshape(-1)
+#data = sio.loadmat('amg.mat')
+#A = data['A'].tocsr()
+#b = data['b'].reshape(-1)
 
 N = A.shape[0]
 
