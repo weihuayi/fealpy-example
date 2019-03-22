@@ -5,6 +5,8 @@ import matplotlib.pyplot as plt
 from fealpy.pde.poisson_2d import CosCosData as PDE 
 from fealpy.functionspace import LagrangeFiniteElementSpace
 
+from fealpy.quadrature import GaussLegendreQuadrature
+
 p = 1
 q = 3
 n = 1
@@ -21,15 +23,20 @@ edge = mesh.entity('edge')
 edge2cell = mesh.ds.edge_to_cell()
 n = mesh.edge_unit_normal()
 
+qf = GaussLegendreQuadrature(2)
+bcs, ws = qf.quadpts, qf.weights
 
-print(F)
-print(mesh.number_of_cells())
-print(space.number_of_global_dofs())
+b = space.edge_basis(bcs, edge2cell[:, 0], edge2cell[:, 2])
+print(b)
 
-
+print(edge)
+print(edge2cell)
 
 fig = plt.figure()
 axes = fig.gca()
 mesh.add_plot(axes)
+mesh.find_node(axes, showindex=True)
+mesh.find_edge(axes, showindex=True)
+mesh.find_cell(axes, showindex=True)
 plt.show()
 
