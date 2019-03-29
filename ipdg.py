@@ -12,7 +12,7 @@ q = 3
 n = 1
 pde = PDE()
 
-mesh = pde.init_mesh(n)
+mesh = pde.init_mesh(0)
 integrator = mesh.integrator(q)
 space = LagrangeFiniteElementSpace(mesh, p, spacetype='D') 
 area = mesh.entity_measure('cell')
@@ -26,12 +26,11 @@ n = mesh.edge_unit_normal()
 qf = GaussLegendreQuadrature(2)
 bcs, ws = qf.quadpts, qf.weights
 
-b = space.edge_basis(bcs, edge2cell[:, 0], edge2cell[:, 2])
-print(b)
-
-print(edge)
-print(edge2cell)
-
+phi = space.edge_basis(bcs, edge2cell[:, 0], edge2cell[:, 2])
+print(phi)
+gphi = space.edge_grad_basis(bcs, edge2cell[:, 0], edge2cell[:, 2])
+print(gphi)
+print(gphi.shape)
 fig = plt.figure()
 axes = fig.gca()
 mesh.add_plot(axes)
