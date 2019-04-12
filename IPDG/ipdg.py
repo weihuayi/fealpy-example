@@ -35,15 +35,30 @@ shape = (NE, NQ, 2*ldof)
 phi = np.zeros(shape)
 ngphi = np.zeros(shape)
 
+edge = mesh.entity('edge')
+print(edge)
+
 phi[..., 0:ldof] = space.edge_basis(bcs, edge2cell[:, 0], edge2cell[:, 2])
 gphi0 = space.edge_grad_basis(bcs, edge2cell[:, 0], edge2cell[:, 2])
-ngphi[..., 0:ldof] = np.einsum('ijkm, im->ijk', gphi0, n) 
+ngphi[..., 0:ldof] = np.einsum('ijkm, im->ijk', gphi0, n)/2
 
-phi[..., ldof:] = -space.edge_basis(bcs, edge2cell[:, 1] , edge2cell[:, 3])
-gphi1 = space.edge_grad_basis(bcs, edge2cell[:, 1], edge2cell[:, 3])
-ngphi[..., ldof:] = np.einsum('ijkm, im->ijk', gphi1, n)
+phi[..., ldof:] = -space.edge_basis(
+        bcs,
+        edge2cell[:, 1],
+        edge2cell[:, 3],
+        direction=False
+        )
 
-E = np.einsum('ijk, ijm, i->ikm', phi, ngphi, h)
+gphi1 = space.edge_grad_basis(
+        bcs,
+        edge2cell[:, 1],
+        edge2cell[:, 3],
+        direction=False)
+ngphi[..., ldof:] = np.einsum('ijkm, im->ijk', gphi1, n)/2
+
+print(phi)
+
+E = np.einsum('j, ijk, ijm, i->ikm', ws, phi, ngphi, h)
 print(E)
 fig = plt.figure()
 axes = fig.gca()
@@ -52,4 +67,3 @@ mesh.find_node(axes, showindex=True)
 mesh.find_edge(axes, showindex=True)
 mesh.find_cell(axes, showindex=True)
 plt.show()
-
