@@ -27,10 +27,6 @@ h = mesh.entity_measure('edge')
 qf = GaussLegendreQuadrature(2)
 bcs, ws = qf.quadpts, qf.weights
 
-<<<<<<< HEAD
-phi = space.edge_basis(bcs, edge2cell[:, 0], edge2cell[:, 2])
-gphi = space.edge_grad_basis(bcs, edge2cell[:, 0], edge2cell[:, 2])
-=======
 NE = mesh.number_of_edges()
 NQ = len(bcs)
 ldof = space.number_of_local_dofs()
@@ -49,7 +45,6 @@ ngphi[..., ldof:] = np.einsum('ijkm, im->ijk', gphi1, n)
 
 E = np.einsum('ijk, ijm, i->ikm', phi, ngphi, h)
 print(E)
->>>>>>> 44858577285a3df937486260bbe8b30d33882709
 fig = plt.figure()
 axes = fig.gca()
 mesh.add_plot(axes)
