@@ -27,10 +27,7 @@ qf = GaussLegendreQuadrature(2)
 bcs, ws = qf.quadpts, qf.weights
 
 phi = space.edge_basis(bcs, edge2cell[:, 0], edge2cell[:, 2])
-print(phi)
 gphi = space.edge_grad_basis(bcs, edge2cell[:, 0], edge2cell[:, 2])
-print(gphi)
-print(gphi.shape)
 fig = plt.figure()
 axes = fig.gca()
 mesh.add_plot(axes)
